@@ -1,0 +1,31 @@
+# Old version of the site (kept locally for reference)
+старый сайт/
+старый*/
+old-site/
+.git/
+
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Build artifacts
+node_modules/
+dist/
+.cache/
+
+# Local env
+.env
+.env.local
+
+# Logs
+*.log
+
+# Source materials
+*.pdf

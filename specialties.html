@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ru" data-lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Специальности — META College</title>
+  <meta name="description" content="9 образовательных программ META College: IT, экономика, автотранспорт, аграрные направления и экология. 4 года обучения, RU/KZ, очный формат.">
+  <meta name="theme-color" content="#FAFAFA">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23D42B2B'/><text x='16' y='22' font-family='Space Grotesk,Inter,sans-serif' font-size='18' font-weight='700' text-anchor='middle' fill='%23ffffff'>M</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <div class="bg-ambient"></div>
+  <div class="grid-bg"></div>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html"><img class="brand-logo" src="assets/img/logo.svg" alt="META College" onerror="this.outerHTML='<span class=&quot;brand-mark&quot;>M</span><b>META</b><span>College</span>'"></a>
+      <nav class="nav-links">
+        <a class="nav-link" href="index.html" data-ru="Главная" data-kz="Басты бет">Главная</a>
+        <a class="nav-link active" href="specialties.html" data-ru="Специальности" data-kz="Мамандықтар">Специальности</a>
+        <a class="nav-link" href="campus.html" data-ru="Кампус" data-kz="Кампус">Кампус</a>
+        <a class="nav-link" href="admission.html" data-ru="Поступление" data-kz="Қабылдау">Поступление</a>
+        <a class="nav-link" href="about.html" data-ru="О колледже" data-kz="Колледж туралы">О колледже</a>
+        <a class="nav-link" href="contacts.html" data-ru="Контакты" data-kz="Байланыс">Контакты</a>
+      </nav>
+      <div class="nav-cta">
+        <div class="lang-switch"><button class="lang-btn is-active" data-lang="ru">RU</button><button class="lang-btn" data-lang="kz">KZ</button></div>
+        <a class="btn btn-primary" href="admission.html" data-ru="Подать заявку" data-kz="Өтінім беру">Подать заявку</a>
+        <button class="menu-toggle" aria-label="Меню"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <button class="close-btn">×</button>
+    <nav>
+      <a href="index.html" data-ru="Главная" data-kz="Басты бет">Главная</a>
+      <a href="specialties.html" data-ru="Специальности" data-kz="Мамандықтар">Специальности</a>
+      <a href="campus.html" data-ru="Кампус" data-kz="Кампус">Кампус</a>
+      <a href="admission.html" data-ru="Поступление" data-kz="Қабылдау">Поступление</a>
+      <a href="about.html" data-ru="О колледже" data-kz="Колледж туралы">О колледже</a>
+      <a href="contacts.html" data-ru="Контакты" data-kz="Байланыс">Контакты</a>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" data-ru="9 программ · 4 кластера" data-kz="9 бағдарлама · 4 кластер">9 программ · 4 кластера</span>
+      <h1 data-ru="Образовательные программы" data-kz="Білім беру бағдарламалары" style="margin-top:14px;">Образовательные программы</h1>
+      <p data-ru="9 востребованных программ — все с гарантированной практикой у партнёров-работодателей и шансом получить государственный грант." data-kz="9 сұранысқа ие бағдарлама — барлығы серіктес-жұмыс берушілерде кепілдендірілген тәжірибемен және мемлекеттік грант алу мүмкіндігімен.">9 востребованных программ — все с гарантированной практикой у партнёров-работодателей и шансом получить государственный грант.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="spec-filter reveal" role="tablist">
+        <button class="is-active" data-cluster="all" data-ru="Все программы" data-kz="Барлық бағдарламалар">Все программы</button>
+        <button data-cluster="it" data-ru="IT" data-kz="IT">IT</button>
+        <button data-cluster="econ" data-ru="Экономика и сервис" data-kz="Экономика және сервис">Экономика и сервис</button>
+        <button data-cluster="auto" data-ru="Автотранспорт" data-kz="Автокөлік">Автотранспорт</button>
+        <button data-cluster="agro" data-ru="Аграрные и экология" data-kz="Аграрлық және экология">Аграрные и экология</button>
+      </div>
+
+      <div class="spec-grid" id="it">
+        <!-- IT -->
+        <article class="spec-card reveal" data-cluster="it">
+          <span class="badge">IT · 01</span>
+          <h3 data-ru="Программное обеспечение" data-kz="Бағдарламалық жасақтама">Программное обеспечение</h3>
+          <p class="roles" data-ru="Программист · Backend-разработчик · Тестировщик · DevOps-инженер" data-kz="Бағдарламашы · Backend-әзірлеуші · Тестілеуші · DevOps инженер">Программист · Backend-разработчик · Тестировщик · DevOps-инженер</p>
+          <div class="meta">
+            <span><b>4 года</b> · <span data-ru="очно" data-kz="күндізгі">очно</span></span>
+            <span data-ru="RU · KZ" data-kz="RU · KZ">RU · KZ</span>
+          </div>
+        </article>
+
+        <article class="spec-card reveal" data-cluster="it">
+          <span class="badge">IT · 02</span>
+          <h3 data-ru="Программное обеспечение: веб-дизайн" data-kz="Бағдарламалық жасақтама: веб-дизайн">Программное обеспечение: веб-дизайн</h3>
+          <p class="roles" data-ru="Веб-разработчик · UI/UX-дизайнер · Frontend-инженер · Designer-developer" data-kz="Веб-әзірлеуші · UI/UX дизайнер · Frontend-инженер">Веб-разработчик · UI/UX-дизайнер · Frontend-инженер · Designer-developer</p>
+          <div class="meta">
+            <span><b>4 года</b> · <span data-ru="очно" data-kz="күндізгі">очно</span></span>
+            <span>RU · KZ</span>
+          </div>
+        </article>
+
+        <!-- Economics -->
+        <article class="spec-card reveal" data-cluster="econ" id="econ">
+          <span class="badge">Economics · 03</span>
+          <h3 data-ru="Учёт и аудит" data-kz="Есеп және аудит">Учёт и аудит</h3>
+          <p class="roles" data-ru="Бухгалтер · Финансовый аналитик · Аудитор · Налоговый консультант" data-kz="Бухгалтер · Қаржы талдаушы · Аудитор · Салық кеңесшісі">Бухгалтер · Финансовый аналитик · Аудитор · Налоговый консультант</p>
+          <div class="meta">
+            <span><b>4 года</b> · <span data-ru="очно" data-kz="күндізгі">очно</span></span>
+            <span>RU · KZ</span>
+          </div>
+        </article>
+
+        <article class="spec-card reveal" data-cluster="econ">
+          <span class="badge">Economics · 04</span>
+          <h3 data-ru="Логистика" data-kz="Логистика">Логистика</h3>
+          <p class="roles" data-ru="Логист · Менеджер по ВЭД · Специалист по закупкам · Координатор цепей поставок" data-kz="Логист · СЭҚ менеджері · Сатып алу маманы · Жеткізу тізбегінің үйлестірушісі">Логист · Менеджер по ВЭД · Специалист по закупкам · Координатор цепей поставок</p>
+          <div class="meta">
+            <span><b>4 года</b> · <span data-ru="очно" data-kz="күндізгі">очно</span></span>
+            <span>RU · KZ</span>
+          </div>
+        </article>
+
+        <!-- Auto -->
+        <article class="spec-card reveal" data-cluster="auto" id="auto">
+          <span class="badge">Auto · 05</span>
+          <h3 data-ru="ТО, ремонт и эксплуатация автомобилей" data-kz="Көліктерге ТҚ, жөндеу және пайдалану">ТО, ремонт и эксплуатация автомобилей</h3>
+          <p class="roles" data-ru="Автомеханик · Диагност · Мастер СТО · Мастер-приёмщик" data-kz="Автокөлік механигі · Диагност · СТО шебері">Автомеханик · Диагност · Мастер СТО · Мастер-приёмщик</p>
+          <div class="meta">
+            <span><b>4 года</b> · <span data-ru="очно" data-kz="күндізгі">очно</span></span>
+            <span>RU · KZ</span>
+          </div>
+        </article>
+
+        <article class="spec-card reveal" data-cluster="auto">
+          <span class="badge">Auto · 06</span>
+          <h3 data-ru="Электрик по автомобильному электрооборудованию" data-kz="Автокөлік электр жабдықтары бойынша электрик">Электрик по автомобильному электрооборудованию</h3>
+          <p class="roles" data-ru="Автоэлектрик · Электронщик СТО · Диагност электросистем" data-kz="Авто электрик · СТО электроншысы · Электр жүйелерінің диагносты">Автоэлектрик · Электронщик СТО · Диагност электросистем</p>
+          <div class="meta">
+            <span><b>4 года</b> · <span data-ru="очно" data-kz="күндізгі">очно</span></span>
+            <span>RU · KZ</span>
+          </div>
+        </article>
+
+        <!-- Agro -->
+        <article class="spec-card reveal" data-cluster="agro" id="agro">
+          <span class="badge">Agro · 07</span>
+          <h3 data-ru="Агрономия" data-kz="Агрономия">Агрономия</h3>
+          <p class="roles" data-ru="Агроном · Специалист по защите растений · Семеновод · Полевод" data-kz="Агроном · Өсімдік қорғау маманы · Тұқым шаруашысы">Агроном · Специалист по защите растений · Семеновод · Полевод</p>
+          <div class="meta">
+            <span><b>4 года</b> · <span data-ru="очно" data-kz="күндізгі">очно</span></span>
+            <span>RU · KZ</span>
+          </div>
+        </article>
+
+        <article class="spec-card reveal" data-cluster="agro">
+          <span class="badge">Agro · 08</span>
+          <h3 data-ru="Ветеринария" data-kz="Ветеринария">Ветеринария</h3>
+          <p class="roles" data-ru="Ветврач · Ветфельдшер · Зоотехник · Специалист по фарм-инспекции" data-kz="Ветеринар дәрігер · Ветфельдшер · Зоотехник">Ветврач · Ветфельдшер · Зоотехник · Специалист по фарм-инспекции</p>
+          <div class="meta">
+            <span><b>4 года</b> · <span data-ru="очно" data-kz="күндізгі">очно</span></span>
+            <span>RU · KZ</span>
+          </div>
+        </article>
+
+        <article class="spec-card reveal" data-cluster="agro">
+          <span class="badge">Eco · 09</span>
+          <h3 data-ru="Землеустройство" data-kz="Жер құрылысы">Землеустройство</h3>
+          <p class="roles" data-ru="Землеустроитель · Кадастровый инженер · Геодезист · Специалист по ГИС" data-kz="Жер құрылысшысы · Кадастр инженері · Геодезист">Землеустроитель · Кадастровый инженер · Геодезист · Специалист по ГИС</p>
+          <div class="meta">
+            <span><b>4 года</b> · <span data-ru="очно" data-kz="күндізгі">очно</span></span>
+            <span>RU · KZ</span>
+          </div>
+        </article>
+
+        <article class="spec-card reveal" data-cluster="agro">
+          <span class="badge">Eco · 10</span>
+          <h3 data-ru="Лесное хозяйство" data-kz="Орман шаруашылығы">Лесное хозяйство</h3>
+          <p class="roles" data-ru="Лесничий · Эколог · Специалист по охране природы · Природоохранный инспектор" data-kz="Орманшы · Эколог · Табиғат қорғау маманы">Лесничий · Эколог · Специалист по охране природы · Природоохранный инспектор</p>
+          <div class="meta">
+            <span><b>4 года</b> · <span data-ru="очно" data-kz="күндізгі">очно</span></span>
+            <span>RU · KZ</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <div class="cta-banner reveal">
+        <h2 class="h-2" data-ru="Не уверен в выборе? Пройди профориентационный тест" data-kz="Таңдауға сенімсіз бе? Кәсіби бағдарлау тестінен өт">Не уверен в выборе? Пройди профориентационный тест</h2>
+        <p data-ru="Поможем определить подходящую специальность. Бесплатно и за 15 минут." data-kz="Сізге сай мамандықты анықтауға көмектесеміз. Тегін және 15 минут ішінде.">Поможем определить подходящую специальность. Бесплатно и за 15 минут.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary btn-lg" href="admission.html" data-ru="Подать заявку" data-kz="Өтінім беру">Подать заявку</a>
+          <a class="btn btn-ghost btn-lg" href="tel:+77755009745">+7 (775) 500-97-45</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html"><img class="brand-logo" src="assets/img/logo.svg" alt="META College" onerror="this.outerHTML='<span class=&quot;brand-mark&quot;>M</span><b>META</b><span>College</span>'"></a>
+          <p data-ru="Колледж в Алматы с 9 востребованными программами и 25-летней историей." data-kz="Алматыдағы 9 бағдарламасы және 25 жылдық тарихы бар колледж.">Колледж в Алматы с 9 востребованными программами и 25-летней историей.</p>
+        </div>
+        <div>
+          <h5 data-ru="Навигация" data-kz="Навигация">Навигация</h5>
+          <ul>
+            <li><a href="specialties.html" data-ru="Специальности" data-kz="Мамандықтар">Специальности</a></li>
+            <li><a href="campus.html" data-ru="Кампус" data-kz="Кампус">Кампус</a></li>
+            <li><a href="admission.html" data-ru="Поступление" data-kz="Қабылдау">Поступление</a></li>
+            <li><a href="about.html" data-ru="О колледже" data-kz="Колледж туралы">О колледже</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5 data-ru="Программы" data-kz="Бағдарламалар">Программы</h5>
+          <ul>
+            <li><a href="#it">IT</a></li>
+            <li><a href="#econ" data-ru="Экономика" data-kz="Экономика">Экономика</a></li>
+            <li><a href="#auto" data-ru="Автотранспорт" data-kz="Автокөлік">Автотранспорт</a></li>
+            <li><a href="#agro" data-ru="Аграрные" data-kz="Аграрлық">Аграрные</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5 data-ru="Контакты" data-kz="Байланыс">Контакты</h5>
+          <ul>
+            <li><a href="tel:+77755009745">+7 (775) 500-97-45</a></li>
+            <li><a href="https://instagram.com/metacollegekz" target="_blank" rel="noopener">@metacollegekz</a></li>
+            <li><a href="contacts.html" data-ru="ул. Наурызбай батыра, 9" data-kz="Наурызбай батыр көш., 9">ул. Наурызбай батыра, 9</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom"><div>© 2026 META College.</div></div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

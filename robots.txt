@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://meta-college.kz/sitemap.xml
