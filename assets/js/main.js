@@ -156,25 +156,36 @@
     }
   }
 
-  /* ---------- Form mock submit ---------- */
+  /* ---------- Form submit (mailto + WhatsApp fallback) ---------- */
   const form = document.querySelector('form.app-form');
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      const inputs = form.querySelectorAll('input, select, textarea');
+      const name = inputs[0]?.value?.trim() || '—';
+      const phone = inputs[1]?.value?.trim() || '—';
+      const program = inputs[2]?.value?.trim() || '—';
+      const comment = inputs[3]?.value?.trim() || '—';
+      const subject = encodeURIComponent('Заявка на поступление — META College');
+      const body = encodeURIComponent(
+        `Здравствуйте!\n\nЗаявка на поступление в META College:\n\nИмя: ${name}\nТелефон: ${phone}\nПрограмма: ${program}\nКомментарий: ${comment}\n\nПожалуйста, свяжитесь со мной для уточнений.`
+      );
+      // Открываем почтовый клиент пользователя
+      window.location.href = `mailto:info@meta-college.kz?subject=${subject}&body=${body}`;
+      // Параллельно — успех в UI
       const btn = form.querySelector('button[type="submit"]');
       if (btn) {
-        btn.textContent = '✓ Заявка отправлена';
+        btn.textContent = '✓ Открыли почтовый клиент';
         btn.disabled = true;
-        btn.style.background = '#9af23a';
+        btn.style.opacity = '.8';
       }
-      setTimeout(() => {
-        const note = document.createElement('p');
-        note.style.marginTop = '14px';
-        note.style.color = '#c2ff3d';
-        note.style.fontSize = '14px';
-        note.textContent = 'Мы свяжемся с вами в течение рабочего дня. Спасибо!';
-        form.appendChild(note);
-      }, 200);
+      const note = document.createElement('p');
+      note.style.marginTop = '14px';
+      note.style.color = 'var(--accent)';
+      note.style.fontSize = '14px';
+      note.style.fontWeight = '600';
+      note.innerHTML = `Если почта не открылась, напишите нам в <a href="https://wa.me/77755009745?text=${body}" target="_blank" style="color:var(--accent); text-decoration:underline;">WhatsApp</a> или <a href="https://instagram.com/metacollegekz" target="_blank" style="color:var(--accent); text-decoration:underline;">Instagram</a>.`;
+      form.appendChild(note);
     });
   }
 })();

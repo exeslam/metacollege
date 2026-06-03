@@ -1,0 +1,136 @@
+# Sveltia CMS / Decap CMS config — META College
+# https://github.com/sveltia/sveltia-cms
+
+backend:
+  name: github
+  repo: exeslam/metacollege   # owner/repo
+  branch: main
+  # Sveltia CMS использует свой публичный OAuth-прокси по умолчанию.
+  # Если хочешь использовать свой, поднятый на Vercel, раскомментируй:
+  # base_url: https://meta-college.vercel.app
+  # auth_endpoint: /api/auth
+
+# Запрет на работу без коммита (черновики — в отдельной ветке)
+publish_mode: editorial_workflow
+
+# Где хранятся загруженные файлы (фото для статей/новостей)
+media_folder: "assets/img/uploads"
+public_folder: "/assets/img/uploads"
+
+# Логотип сверху админки
+logo_url: /assets/img/logo.svg
+
+# Локаль
+locale: ru
+
+# ===== Коллекции =====
+collections:
+  # ---------- НОВОСТИ ----------
+  - name: news
+    label: Новости
+    label_singular: Новость
+    folder: content/news
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: json
+    format: json
+    summary: "{{title}} — {{date}}"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Заголовок, widget: string }
+      - { name: date,  label: Дата, widget: datetime }
+      - { name: cover, label: Обложка, widget: image, required: false }
+      - { name: excerpt, label: Краткое описание, widget: text }
+      - { name: body, label: Текст, widget: markdown }
+      - { name: featured, label: Закрепить в главных, widget: boolean, default: false }
+      - { name: tag, label: Тег, widget: select, options: ["Анонс","Достижение","Новости","Партнёры","Поступление"], default: "Новости" }
+
+  # ---------- БЛОГ / СТАТЬИ ----------
+  - name: posts
+    label: Блог
+    label_singular: Статья
+    folder: content/posts
+    create: true
+    slug: "{{slug}}"
+    extension: json
+    format: json
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Заголовок, widget: string }
+      - { name: date,  label: Дата публикации, widget: datetime }
+      - { name: cover, label: Обложка, widget: image, required: false }
+      - { name: author, label: Автор, widget: string, default: "META College" }
+      - { name: excerpt, label: Краткое описание (для карточки), widget: text }
+      - { name: body, label: Текст статьи, widget: markdown }
+      - { name: category, label: Категория, widget: select, options: ["Поступление","Учёба","Карьера","Жизнь в колледже","Истории"], default: "Учёба" }
+      - { name: reading_time, label: Время чтения (мин), widget: number, default: 5 }
+
+  # ---------- ВЫПУСКНИКИ ----------
+  - name: alumni
+    label: Истории выпускников
+    label_singular: Выпускник
+    folder: content/alumni
+    create: true
+    slug: "{{slug}}"
+    extension: json
+    format: json
+    fields:
+      - { name: name, label: Имя и фамилия, widget: string }
+      - { name: photo, label: Фото, widget: image, required: false }
+      - { name: program, label: Программа, widget: string }
+      - { name: graduation_year, label: Год выпуска, widget: number }
+      - { name: company, label: Место работы, widget: string }
+      - { name: position, label: Должность, widget: string }
+      - { name: quote, label: Цитата, widget: text }
+
+  # ---------- ПРЕПОДАВАТЕЛИ ----------
+  - name: teachers
+    label: Преподаватели
+    label_singular: Преподаватель
+    folder: content/teachers
+    create: true
+    slug: "{{slug}}"
+    extension: json
+    format: json
+    fields:
+      - { name: name, label: Имя и фамилия, widget: string }
+      - { name: photo, label: Фото, widget: image, required: false }
+      - { name: position, label: Должность, widget: string }
+      - { name: department, label: Кафедра, widget: select, options: ["IT","Экономика","Автотранспорт","Аграрные","Общие дисциплины"] }
+      - { name: experience, label: Опыт (лет), widget: number, default: 5 }
+      - { name: bio, label: Биография, widget: text, required: false }
+
+  # ---------- НАСТРОЙКИ САЙТА ----------
+  - name: settings
+    label: Настройки сайта
+    delete: false
+    editor: { preview: false }
+    files:
+      - name: home
+        label: Главная страница
+        file: content/settings/home.json
+        format: json
+        fields:
+          - { name: hero_title, label: Заголовок в hero, widget: string }
+          - { name: hero_subtitle, label: Подзаголовок hero, widget: text }
+          - { name: badge, label: Баннер «Набор открыт», widget: string }
+          - label: Цифры на главной
+            name: stats
+            widget: object
+            fields:
+              - { name: students, label: Студентов, widget: number }
+              - { name: programs, label: Программ, widget: number }
+              - { name: employment, label: Трудоустройство %, widget: number }
+              - { name: years, label: Лет опыта, widget: number }
+
+      - name: contacts
+        label: Контакты
+        file: content/settings/contacts.json
+        format: json
+        fields:
+          - { name: phone, label: Телефон, widget: string }
+          - { name: phone_display, label: Телефон (отображение), widget: string }
+          - { name: email, label: Email, widget: string }
+          - { name: address, label: Адрес, widget: string }
+          - { name: instagram, label: Instagram URL, widget: string }
+          - { name: working_hours, label: Часы работы, widget: text }

@@ -29,3 +29,5 @@ dist/
 
 # Source materials
 *.pdf
+_tpl_*.html
+.github/

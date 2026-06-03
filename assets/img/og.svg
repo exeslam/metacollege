@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FAFAFA"/>
+      <stop offset="1" stop-color="#FFFFFF"/>
+    </linearGradient>
+    <radialGradient id="blob1" cx="0.85" cy="0.1" r="0.4">
+      <stop offset="0" stop-color="#E85D2A" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#E85D2A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blob2" cx="0.1" cy="0.9" r="0.4">
+      <stop offset="0" stop-color="#D42B2B" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#D42B2B" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="text-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#D42B2B"/>
+      <stop offset="1" stop-color="#E85D2A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#blob1)"/>
+  <rect width="1200" height="630" fill="url(#blob2)"/>
+
+  <!-- Tag -->
+  <g transform="translate(80, 90)">
+    <rect width="270" height="44" rx="22" fill="#FFFFFF" stroke="rgba(0,0,0,0.08)"/>
+    <circle cx="24" cy="22" r="6" fill="#D42B2B"/>
+    <text x="44" y="29" font-family="Onest,Inter,Arial" font-size="15" font-weight="700" fill="#555555" letter-spacing="1">НАБОР 2026/2027</text>
+  </g>
+
+  <!-- Title -->
+  <text x="80" y="260" font-family="Onest,Inter,Arial" font-size="92" font-weight="800" fill="#111111" letter-spacing="-3">META College</text>
+  <text x="80" y="370" font-family="Onest,Inter,Arial" font-size="62" font-weight="700" fill="#555555" letter-spacing="-2">Актуальная <tspan fill="url(#text-grad)">профессия.</tspan></text>
+  <text x="80" y="445" font-family="Onest,Inter,Arial" font-size="62" font-weight="700" fill="#555555" letter-spacing="-2">Прямой путь в индустрию.</text>
+
+  <!-- Stats -->
+  <g transform="translate(80, 510)">
+    <text x="0" y="0" font-family="Onest,Inter,Arial" font-size="40" font-weight="800" fill="#111111">1 500+</text>
+    <text x="0" y="32" font-family="Onest,Inter,Arial" font-size="15" fill="#888888">студентов</text>
+
+    <text x="200" y="0" font-family="Onest,Inter,Arial" font-size="40" font-weight="800" fill="#111111">9</text>
+    <text x="200" y="32" font-family="Onest,Inter,Arial" font-size="15" fill="#888888">программ</text>
+
+    <text x="320" y="0" font-family="Onest,Inter,Arial" font-size="40" font-weight="800" fill="#111111">90%</text>
+    <text x="320" y="32" font-family="Onest,Inter,Arial" font-size="15" fill="#888888">трудоустройство</text>
+
+    <text x="540" y="0" font-family="Onest,Inter,Arial" font-size="40" font-weight="800" fill="#111111">25</text>
+    <text x="540" y="32" font-family="Onest,Inter,Arial" font-size="15" fill="#888888">лет опыта</text>
+  </g>
+
+  <!-- Logo mark right side -->
+  <g transform="translate(940, 160)">
+    <circle cx="120" cy="120" r="120" fill="#D42B2B"/>
+    <text x="120" y="146" font-family="Onest,Inter,Arial" font-size="100" font-weight="800" fill="#FFFFFF" text-anchor="middle">M</text>
+  </g>
+
+  <!-- Footer brand -->
+  <text x="80" y="610" font-family="Onest,Inter,Arial" font-size="14" font-weight="600" fill="#888888" letter-spacing="1">META-COLLEGE.KZ · АЛМАТЫ · УЛ. НАУРЫЗБАЙ БАТЫРА, 9</text>
+</svg>
