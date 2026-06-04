@@ -1,0 +1,10 @@
+{
+  "name": "metacollege",
+  "version": "1.0.0",
+  "private": true,
+  "description": "META College — статический сайт + кастомная админка",
+  "type": "module",
+  "engines": {
+    "node": "20.x"
+  }
+}

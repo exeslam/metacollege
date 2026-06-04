@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вход в админку — META College</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body class="admin-login-page">
+  <div class="bg-ambient"></div>
+
+  <main class="login-wrap">
+    <div class="login-card">
+      <a class="brand" href="../index.html" style="margin-bottom: 28px;">
+        <img class="brand-logo" src="../assets/img/logo.svg" alt="META College" style="height: 56px;">
+      </a>
+      <h1 class="h-2" style="font-size: 28px; margin-bottom: 8px;">Вход в админку</h1>
+      <p class="lead" style="font-size: 15px; margin-bottom: 28px;">Введите свой email и пароль. Если не помните — обратитесь к администратору.</p>
+
+      <form id="login-form" class="login-form">
+        <div class="field">
+          <label>Email</label>
+          <input type="email" name="email" required autocomplete="email" placeholder="admin@meta-college.kz">
+        </div>
+        <div class="field">
+          <label>Пароль</label>
+          <input type="password" name="password" required autocomplete="current-password" placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; justify-content: center;">Войти</button>
+        <p id="login-error" class="login-error" hidden></p>
+      </form>
+
+      <p style="font-size: 12px; color: var(--muted); margin-top: 24px; text-align: center;">
+        ← <a href="../index.html" style="color: var(--accent);">Вернуться на сайт</a>
+      </p>
+    </div>
+  </main>
+
+  <script>
+    const form = document.getElementById('login-form');
+    const err = document.getElementById('login-error');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.hidden = true;
+      const btn = form.querySelector('button');
+      btn.disabled = true; btn.textContent = 'Входим…';
+      try {
+        const fd = new FormData(form);
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: fd.get('email'), password: fd.get('password') }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Не удалось войти');
+        location.href = '/admin/';
+      } catch (e) {
+        err.hidden = false;
+        err.textContent = e.message;
+        btn.disabled = false; btn.textContent = 'Войти';
+      }
+    });
+  </script>
+</body>
+</html>

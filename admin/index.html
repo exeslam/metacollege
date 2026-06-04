@@ -3,13 +3,69 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>META College — Админка</title>
+  <title>Админка — META College</title>
+  <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/svg+xml" href="../assets/img/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
-<body>
-  <!-- Sveltia CMS — drop-in replacement for Decap CMS, optimized for Vercel/GitHub.
-       Совместим с тем же config.yml. Auth идёт через GitHub OAuth с публичным
-       прокси sveltia.dev (бесплатный для open-source). -->
-  <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js" type="module"></script>
+<body class="admin-page">
+  <aside class="admin-sidebar">
+    <a class="brand" href="/admin/" style="margin-bottom: 32px;">
+      <img class="brand-logo" src="../assets/img/logo.svg" alt="META College" style="height: 36px;">
+    </a>
+    <nav class="admin-nav">
+      <a class="active" data-collection="news"><span class="icon">📰</span> Новости</a>
+      <a data-collection="posts"><span class="icon">📝</span> Блог</a>
+      <a data-collection="alumni"><span class="icon">🎓</span> Выпускники</a>
+      <a data-collection="teachers"><span class="icon">👨‍🏫</span> Преподаватели</a>
+      <a data-collection="settings"><span class="icon">⚙️</span> Настройки</a>
+    </nav>
+    <div class="admin-user">
+      <div class="user-info">
+        <div class="avatar" id="user-avatar">?</div>
+        <div>
+          <div class="name" id="user-name">…</div>
+          <div class="role" id="user-role">…</div>
+        </div>
+      </div>
+      <a class="btn btn-ghost" id="logout-btn" style="margin-top: 12px; width: 100%; justify-content: center; padding: 8px 14px; font-size: 13px;">Выйти</a>
+      <a class="btn btn-ghost" href="/" target="_blank" style="margin-top: 6px; width: 100%; justify-content: center; padding: 8px 14px; font-size: 13px;">Открыть сайт ↗</a>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-header">
+      <h1 id="page-title">Новости</h1>
+      <div class="admin-header-actions">
+        <button class="btn btn-primary" id="new-btn">+ Добавить</button>
+      </div>
+    </header>
+
+    <div class="admin-content" id="admin-content">
+      <div class="loader">Загрузка…</div>
+    </div>
+  </main>
+
+  <!-- Modal editor -->
+  <div class="admin-modal" id="editor-modal" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <header>
+        <h2 id="modal-title">Редактирование</h2>
+        <button class="modal-close" id="modal-close">×</button>
+      </header>
+      <form id="editor-form" class="editor-form"></form>
+      <footer>
+        <button class="btn btn-ghost" id="cancel-btn">Отмена</button>
+        <button class="btn btn-primary" id="save-btn">Сохранить</button>
+      </footer>
+    </div>
+  </div>
+
+  <script src="/assets/js/admin-app.js"></script>
 </body>
 </html>
