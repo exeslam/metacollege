@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Первый запуск — META College</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body class="admin-login-page">
+  <div class="bg-ambient"></div>
+
+  <main class="login-wrap">
+    <div class="login-card" id="card">
+      <a class="brand" href="../index.html" style="margin-bottom: 24px;">
+        <img class="brand-logo" src="../assets/img/logo.svg" alt="META College" style="height: 48px;">
+      </a>
+      <h1 class="h-2" style="font-size: 26px; margin-bottom: 8px;">Создание первого администратора</h1>
+      <p class="lead" style="font-size: 14.5px; margin-bottom: 22px;">
+        Эта страница работает только при первом запуске. После создания админа она перестаёт работать.
+      </p>
+
+      <div id="check" style="text-align: center; padding: 30px; color: var(--muted);">Проверяем доступность…</div>
+
+      <form id="form" class="login-form" hidden>
+        <div class="field">
+          <label>Имя и фамилия</label>
+          <input type="text" name="name" required placeholder="Умар Лалазов">
+        </div>
+        <div class="field">
+          <label>Email (для входа)</label>
+          <input type="email" name="email" required placeholder="admin@meta-college.kz">
+        </div>
+        <div class="field">
+          <label>Пароль (минимум 8 символов)</label>
+          <input type="password" name="password" required minlength="8" placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%; justify-content:center;">Создать админа и войти</button>
+        <p id="error" class="login-error" hidden></p>
+      </form>
+
+      <div id="blocked" hidden style="padding: 24px; background: var(--bg-soft); border-radius: var(--r-md); color: var(--text-2); font-size: 14.5px;">
+        🔒 Bootstrap уже использован — администратор существует. <br><br>
+        <a href="/admin/login.html" class="btn btn-primary" style="margin-top: 12px;">К форме входа →</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const card = document.getElementById('card');
+    const checkEl = document.getElementById('check');
+    const form = document.getElementById('form');
+    const errEl = document.getElementById('error');
+    const blocked = document.getElementById('blocked');
+
+    async function init() {
+      try {
+        const r = await fetch('/api/bootstrap');
+        const data = await r.json();
+        checkEl.hidden = true;
+        if (data.available) {
+          form.hidden = false;
+        } else {
+          blocked.hidden = false;
+        }
+      } catch (e) {
+        checkEl.textContent = 'Ошибка проверки: ' + e.message;
+      }
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errEl.hidden = true;
+      const btn = form.querySelector('button');
+      btn.disabled = true; btn.textContent = 'Создаём…';
+      try {
+        const fd = new FormData(form);
+        const r = await fetch('/api/bootstrap', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: fd.get('name'),
+            email: fd.get('email'),
+            password: fd.get('password'),
+          }),
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error || 'Ошибка');
+        location.href = '/admin/';
+      } catch (e) {
+        errEl.hidden = false;
+        errEl.textContent = e.message;
+        btn.disabled = false; btn.textContent = 'Создать админа и войти';
+      }
+    });
+
+    init();
+  </script>
+</body>
+</html>
