@@ -191,27 +191,44 @@
   }
 
   async function openEditor(item) {
-    const schema = SCHEMAS[current];
-    editing = item; // null = новая запись
-    $('#modal-title').textContent = item ? `Редактирование: ${item.data?.title || item.data?.name || item.slug}` : `Новая запись: ${schema.singular}`;
-    $('#editor-modal').hidden = false;
+    try {
+      console.log('[admin] openEditor', { current, item });
+      const schema = SCHEMAS[current];
+      if (!schema) throw new Error(`SCHEMAS["${current}"] не найдена`);
+      editing = item; // null = новая запись
+      $('#modal-title').textContent = item ? `Редактирование: ${item.data?.title || item.data?.name || item.slug}` : `Новая запись: ${schema.singular}`;
+      $('#editor-modal').hidden = false;
 
-    const form = $('#editor-form');
-    form.innerHTML = '';
+      const form = $('#editor-form');
+      form.innerHTML = '';
 
-    // Slug field (для новой; для существующей показываем readonly)
-    if (current !== 'settings') {
-      const slugField = field({
-        name: '__slug', label: 'URL-идентификатор (slug)',
-        type: 'text', help: 'Латиница, цифры и дефис. Можно оставить пустым — сгенерируется автоматически.',
-      }, item?.slug || '');
-      if (item) slugField.querySelector('input').readOnly = true;
-      form.appendChild(slugField);
-    }
+      // Slug field (для новой; для существующей показываем readonly)
+      if (current !== 'settings') {
+        const slugField = field({
+          name: '__slug', label: 'URL-идентификатор (slug)',
+          type: 'text', help: 'Латиница, цифры и дефис. Можно оставить пустым — сгенерируется автоматически.',
+        }, item?.slug || '');
+        if (item) {
+          const inp = slugField.querySelector('input');
+          if (inp) inp.readOnly = true;
+        }
+        form.appendChild(slugField);
+      }
 
-    for (const f of schema.fields) {
-      const val = item?.data?.[f.name] ?? (typeof f.default === 'function' ? f.default() : f.default);
-      form.appendChild(field(f, val));
+      for (const f of schema.fields) {
+        const val = item?.data?.[f.name] ?? (typeof f.default === 'function' ? f.default() : f.default);
+        try {
+          form.appendChild(field(f, val));
+        } catch (e) {
+          console.error('Ошибка рендера поля', f, e);
+          throw new Error(`Поле «${f.label}» (${f.type}): ${e.message}`);
+        }
+      }
+      console.log('[admin] form rendered, fields:', form.children.length);
+    } catch (e) {
+      console.error('openEditor failed:', e);
+      alert('Ошибка открытия редактора: ' + e.message);
+      $('#editor-modal').hidden = true;
     }
   }
 
@@ -252,10 +269,15 @@
     } else if (f.type === 'datetime') {
       el = document.createElement('input');
       el.type = 'datetime-local';
-      if (value) {
-        const d = new Date(value); const pad = (n) => String(n).padStart(2, '0');
-        el.value = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-      }
+      try {
+        if (value) {
+          const d = new Date(value);
+          if (!isNaN(d.getTime())) {
+            const pad = (n) => String(n).padStart(2, '0');
+            el.value = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+          }
+        }
+      } catch (e) { /* ignore bad dates */ }
     } else if (f.type === 'number') {
       el = document.createElement('input');
       el.type = 'number';
