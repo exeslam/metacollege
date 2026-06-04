@@ -109,6 +109,10 @@
       await fetch('/api/logout', { method: 'POST' });
       location.href = '/admin/login.html';
     };
+    // Скрываем пункты только для админа, если роль editor
+    $$('[data-admin-only]').forEach((el) => {
+      if (me.role !== 'admin') el.style.display = 'none';
+    });
   }
 
   function bindNav() {
@@ -119,13 +123,16 @@
         $$('.admin-nav a').forEach((x) => x.classList.remove('active'));
         a.classList.add('active');
         current = c;
+        // Восстанавливаем стандартный onclick для save и new
+        $('#save-btn').onclick = saveEntry;
+        $('#new-btn').onclick = () => (c === 'users' ? openUserEditor(null) : openEditor(null));
         loadCollection(c);
       });
     });
   }
 
   function bindHeader() {
-    $('#new-btn').addEventListener('click', () => openEditor(null));
+    $('#new-btn').onclick = () => openEditor(null);
   }
 
   function bindModal() {
@@ -136,6 +143,9 @@
   }
 
   async function loadCollection(name) {
+    // Специальная коллекция users — отдельный endpoint
+    if (name === 'users') return loadUsers();
+
     const schema = SCHEMAS[name];
     $('#page-title').textContent = schema.label;
     $('#new-btn').textContent = name === 'settings' ? '' : `+ Добавить ${schema.singular.toLowerCase()}`;
@@ -395,4 +405,122 @@
   function transliterate(s) {
     return String(s || '').toLowerCase().split('').map((ch) => CYR[ch] !== undefined ? CYR[ch] : ch).join('');
   }
+
+  // ============== USERS COLLECTION (special) ==============
+  let editingUser = null;
+
+  async function loadUsers() {
+    $('#page-title').textContent = 'Пользователи';
+    $('#new-btn').style.display = '';
+    $('#new-btn').textContent = '+ Добавить пользователя';
+    $('#new-btn').onclick = () => openUserEditor(null);
+
+    const content = $('#admin-content');
+    content.innerHTML = '<div class="loader">Загрузка…</div>';
+    try {
+      const r = await fetch('/api/users?action=list');
+      if (!r.ok) throw new Error((await r.json()).error || 'Ошибка');
+      const { items } = await r.json();
+      content.innerHTML = '';
+      if (!items.length) {
+        content.innerHTML = '<div class="empty">Пока ни одного пользователя.</div>';
+      } else {
+        items.sort((a, b) => (a.role === 'admin' ? -1 : 1) - (b.role === 'admin' ? -1 : 1));
+        for (const u of items) content.appendChild(userCard(u));
+      }
+    } catch (e) {
+      content.innerHTML = `<div class="empty" style="color:#b91c1c;">${e.message}</div>`;
+    }
+  }
+
+  function userCard(user) {
+    const div = document.createElement('div');
+    div.className = 'entry-card';
+    const initial = (user.name || user.email || '?').slice(0, 1).toUpperCase();
+    const roleLabel = user.role === 'admin' ? 'Администратор' : 'Редактор';
+    const isEnv = user._source === 'env';
+    div.innerHTML = `
+      <div class="thumb" style="background: var(--accent-gradient); color: #fff; font-weight: 700; font-size: 22px;">${escapeHtml(initial)}</div>
+      <div class="body">
+        <h3>${escapeHtml(user.name || user.email)}</h3>
+        <div class="meta">${escapeHtml(user.email)} · ${escapeHtml(roleLabel)}${isEnv ? ' · <span style="color: var(--accent);">из ENV</span>' : ''}</div>
+      </div>
+      <div class="actions">
+        ${isEnv ? '<button disabled style="opacity:.4;cursor:not-allowed;">Только ENV</button>' : '<button class="edit">Изменить</button><button class="del">Удалить</button>'}
+      </div>`;
+    if (!isEnv) {
+      div.querySelector('.edit').onclick = () => openUserEditor(user);
+      div.querySelector('.del').onclick = () => deleteUser(user);
+    }
+    return div;
+  }
+
+  function openUserEditor(user) {
+    editingUser = user;
+    $('#modal-title').textContent = user ? `Редактирование пользователя: ${user.name || user.email}` : 'Новый пользователь';
+    const m = $('#editor-modal');
+    m.hidden = false;
+    m.style.display = 'grid';
+
+    const form = $('#editor-form');
+    form.innerHTML = '';
+    form.appendChild(field({ name: 'name',  label: 'Имя и фамилия', type: 'text', required: true }, user?.name || ''));
+    form.appendChild(field({ name: 'email', label: 'Email', type: 'text', required: true, help: 'Этот email используется для входа' }, user?.email || ''));
+    form.appendChild(field({ name: 'role',  label: 'Роль', type: 'select', required: true, options: ['admin', 'editor'] }, user?.role || 'editor'));
+    const pwdField = field({ name: 'password', label: user ? 'Новый пароль (оставить пустым — не менять)' : 'Пароль', type: 'text', help: 'Минимум 8 символов' }, '');
+    if (!user) pwdField.querySelector('input').required = true;
+    form.appendChild(pwdField);
+
+    // Подменяем сохранение
+    $('#save-btn').onclick = saveUser;
+  }
+
+  async function saveUser() {
+    const form = $('#editor-form');
+    const get = (n) => form.querySelector(`[name="${n}"]`)?.value?.trim() || '';
+    const payload = {
+      action: 'save',
+      name: get('name'),
+      email: get('email'),
+      role: get('role'),
+      password: get('password'),
+      originalEmail: editingUser?.email || '',
+    };
+    if (!payload.name || !payload.email || !payload.role) { toast('Заполните имя, email и роль', 'error'); return; }
+    $('#save-btn').disabled = true; $('#save-btn').textContent = 'Сохраняем…';
+    try {
+      const r = await fetch('/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!r.ok) throw new Error((await r.json()).error || 'Ошибка');
+      toast('Сохранено', 'success');
+      closeEditor();
+      $('#save-btn').onclick = saveEntry; // вернуть стандартный обработчик
+      loadUsers();
+    } catch (e) {
+      toast(e.message, 'error');
+    } finally {
+      $('#save-btn').disabled = false; $('#save-btn').textContent = 'Сохранить';
+    }
+  }
+
+  async function deleteUser(user) {
+    if (!confirm(`Удалить пользователя «${user.name || user.email}»?`)) return;
+    try {
+      const r = await fetch('/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete', email: user.email }),
+      });
+      if (!r.ok) throw new Error((await r.json()).error || 'Ошибка');
+      toast('Удалён', 'success');
+      loadUsers();
+    } catch (e) { toast(e.message, 'error'); }
+  }
+
+  // Восстанавливаем стандартный обработчик save при переключении коллекций
+  const origLoadCollection = loadCollection;
+  // (loadCollection уже определена выше, ничего дополнительно делать не надо — saveUser возвращает onClick)
 })();

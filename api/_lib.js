@@ -3,13 +3,43 @@
 import { createHmac, pbkdf2Sync, scryptSync, timingSafeEqual, randomBytes } from 'node:crypto';
 
 // -------- ENV / users --------
-export function getUsers() {
+// Cache for users.json from repo (per cold-start)
+let _usersCache = null;
+
+export function getEnvUsers() {
   const raw = process.env.ADMIN_USERS_JSON || '[]';
   try { return JSON.parse(raw); } catch (e) { return []; }
 }
 
-export function findUser(email) {
-  return getUsers().find((u) => u.email?.toLowerCase() === String(email || '').toLowerCase());
+// Async — читает пользователей из ENV + content/users.json (репо)
+export async function getUsers() {
+  const envUsers = getEnvUsers();
+  let repoUsers = [];
+  try {
+    if (_usersCache) {
+      repoUsers = _usersCache;
+    } else {
+      const f = await ghGet('content/users.json');
+      if (f) {
+        const json = JSON.parse(Buffer.from(f.content, 'base64').toString('utf8'));
+        repoUsers = Array.isArray(json) ? json : [];
+        _usersCache = repoUsers;
+      }
+    }
+  } catch (e) { /* ignore */ }
+  // Merge: ENV users first (root admin), then repo. Email is unique.
+  const map = new Map();
+  for (const u of [...envUsers, ...repoUsers]) {
+    if (u?.email) map.set(u.email.toLowerCase(), u);
+  }
+  return Array.from(map.values());
+}
+
+export function invalidateUsersCache() { _usersCache = null; }
+
+export async function findUser(email) {
+  const all = await getUsers();
+  return all.find((u) => u.email?.toLowerCase() === String(email || '').toLowerCase());
 }
 
 // -------- Password hashing --------

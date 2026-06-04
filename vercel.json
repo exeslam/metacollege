@@ -13,5 +13,8 @@
         { "key": "Cache-Control", "value": "public, max-age=60, s-maxage=300" }
       ]
     }
+  ],
+  "redirects": [
+    { "source": "/content/users.json", "destination": "/404.html", "statusCode": 404 }
   ]
 }

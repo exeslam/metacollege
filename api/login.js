@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   // Tiny rate-limiter via random delay (мелкая защита от перебора)
   await new Promise((r) => setTimeout(r, 400 + Math.random() * 400));
 
-  const user = findUser(email);
+  const user = await findUser(email);
   if (!user || !verifyPassword(password, user.password)) {
     res.status(401).json({ error: 'Неверный email или пароль' });
     return;
