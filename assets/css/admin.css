@@ -81,16 +81,19 @@
 .modal-card > header {
   padding: 22px 28px; border-bottom: 1px solid var(--border);
   display: flex; justify-content: space-between; align-items: center;
+  flex-shrink: 0;
 }
 .modal-card > header h2 { font-family: var(--font-display); font-size: 22px; letter-spacing: -0.02em; }
 .modal-close { font-size: 28px; line-height: 1; color: var(--muted); background: none; border: 0; cursor: pointer; padding: 0 8px; }
 .modal-card > footer {
   padding: 18px 28px; border-top: 1px solid var(--border);
   display: flex; justify-content: flex-end; gap: 10px;
+  flex-shrink: 0;
 }
 
 .editor-form {
   padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px;
+  flex: 1 1 auto; min-height: 200px;
 }
 .editor-form .field { display: flex; flex-direction: column; gap: 6px; margin: 0; }
 .editor-form label { font-size: 13px; font-weight: 600; color: var(--text); }
