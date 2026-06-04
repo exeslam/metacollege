@@ -1,0 +1,8 @@
+[
+  {
+    "email": "ymarlalazov@gmail.com",
+    "name": "Умар Лалазов",
+    "role": "admin",
+    "password": "pbkdf2:200000:b2ee3cea109dc77769a12b5f87c4058d:233b99297fc7aebf016734342853acd7b3b2b20b1506b467e702a8eb3a8b725a4737fb5c54da3f358044bc90c20c0056bdd12dadfc67df23545638ae23f9e965"
+  }
+]
