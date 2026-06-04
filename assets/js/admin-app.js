@@ -87,6 +87,9 @@
   init();
 
   async function init() {
+    // Принудительно скрываем модалку при старте (на случай CSS-конфликта)
+    const m0 = $('#editor-modal');
+    if (m0) { m0.hidden = true; m0.style.display = 'none'; }
     // Check session
     const r = await fetch('/api/me');
     if (!r.ok) { location.href = '/admin/login.html'; return; }
@@ -197,7 +200,9 @@
       if (!schema) throw new Error(`SCHEMAS["${current}"] не найдена`);
       editing = item; // null = новая запись
       $('#modal-title').textContent = item ? `Редактирование: ${item.data?.title || item.data?.name || item.slug}` : `Новая запись: ${schema.singular}`;
-      $('#editor-modal').hidden = false;
+      const m = $('#editor-modal');
+      m.hidden = false;
+      m.style.display = 'grid';
 
       const form = $('#editor-form');
       form.innerHTML = '';
@@ -369,7 +374,9 @@
   }
 
   function closeEditor() {
-    $('#editor-modal').hidden = true;
+    const m = $('#editor-modal');
+    m.hidden = true;
+    m.style.display = 'none';
     editing = null;
   }
 
