@@ -72,6 +72,7 @@
 
 /* ===== Modal editor ===== */
 .admin-modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; }
+.admin-modal[hidden] { display: none !important; }
 .modal-backdrop { position: absolute; inset: 0; background: rgba(17,17,17,.5); backdrop-filter: blur(4px); }
 .modal-card {
   position: relative; background: var(--surface); border-radius: var(--r-xl);
