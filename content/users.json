@@ -4,5 +4,11 @@
     "name": "Умар Лалазов",
     "role": "admin",
     "password": "pbkdf2:200000:b2ee3cea109dc77769a12b5f87c4058d:233b99297fc7aebf016734342853acd7b3b2b20b1506b467e702a8eb3a8b725a4737fb5c54da3f358044bc90c20c0056bdd12dadfc67df23545638ae23f9e965"
+  },
+  {
+    "email": "nuraiym04a@gmail.com",
+    "name": "Нурайым Абдрай",
+    "role": "editor",
+    "password": "pbkdf2:200000:d755aba44b05b0e19a2b4dd23c6cfceb:2f0217efd5530657325771381aceaaac60e8fe1b2cfdf23564bce210cacc29e3371a44f06756bdce38def6bdc276ff15a37fd61085e9ac5b7a9fabe769d875e6"
   }
 ]
