@@ -106,18 +106,18 @@
           </div>
         </div>
 
-        <form class="app-form">
+        <form class="app-form" id="lead-form" novalidate>
           <div class="field">
             <label data-ru="Имя и фамилия" data-kz="Аты-жөні">Имя и фамилия</label>
-            <input type="text" required placeholder="Айдос Серiков">
+            <input type="text" name="name" required placeholder="Айдос Серiков">
           </div>
           <div class="field">
             <label data-ru="Телефон" data-kz="Телефон">Телефон</label>
-            <input type="tel" required placeholder="+7 (___) ___-__-__">
+            <input type="tel" name="phone" required placeholder="+7 (___) ___-__-__">
           </div>
           <div class="field">
             <label data-ru="Программа" data-kz="Бағдарлама">Программа</label>
-            <select required>
+            <select name="program" required>
               <option value="" data-ru="Выберите программу" data-kz="Бағдарламаны таңдаңыз">Выберите программу</option>
               <option data-ru="Программное обеспечение" data-kz="Бағдарламалық жасақтама">Программное обеспечение</option>
               <option data-ru="ПО: веб-дизайн" data-kz="ПО: веб-дизайн">ПО: веб-дизайн</option>
@@ -134,9 +134,12 @@
           </div>
           <div class="field">
             <label data-ru="Комментарий (опционально)" data-kz="Түсініктеме (міндетті емес)">Комментарий (опционально)</label>
-            <textarea rows="3" placeholder="Класс школы, вопросы по программе"></textarea>
+            <textarea name="comment" rows="3" placeholder="Класс школы, вопросы по программе"></textarea>
           </div>
+          <!-- honeypot: скрытое поле, боты его заполняют, живые люди — нет -->
+          <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;" aria-hidden="true">
           <button type="submit" class="btn btn-primary btn-lg" style="width:100%; justify-content:center;" data-ru="Отправить заявку" data-kz="Өтінімді жіберу">Отправить заявку</button>
+          <p id="lead-status" style="font-size: 13px; margin-top: 12px;" hidden></p>
           <p style="font-size: 12px; color: var(--muted); margin-top: 12px;" data-ru="Нажимая «Отправить», вы соглашаетесь на обработку персональных данных." data-kz="«Жіберу» түймесін басу арқылы дербес деректерді өңдеуге келісім бересіз.">Нажимая «Отправить», вы соглашаетесь на обработку персональных данных.</p>
         </form>
       </div>

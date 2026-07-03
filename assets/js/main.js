@@ -156,36 +156,61 @@
     }
   }
 
-  /* ---------- Form submit (mailto + WhatsApp fallback) ---------- */
+  /* ---------- Form submit → /api/lead → amoCRM ---------- */
   const form = document.querySelector('form.app-form');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    // Собираем UTM из URL и кладём в скрытые поля
+    const utm = {};
+    try {
+      const p = new URLSearchParams(location.search);
+      ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','fbclid'].forEach(k => {
+        const v = p.get(k); if (v) utm[k] = v;
+      });
+    } catch(e){}
+
+    const statusEl = form.querySelector('#lead-status');
+    const setStatus = (msg, ok) => {
+      if (!statusEl) return;
+      statusEl.hidden = false;
+      statusEl.textContent = msg;
+      statusEl.style.color = ok ? 'var(--accent)' : '#c0392b';
+      statusEl.style.fontWeight = '600';
+    };
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const inputs = form.querySelectorAll('input, select, textarea');
-      const name = inputs[0]?.value?.trim() || '—';
-      const phone = inputs[1]?.value?.trim() || '—';
-      const program = inputs[2]?.value?.trim() || '—';
-      const comment = inputs[3]?.value?.trim() || '—';
-      const subject = encodeURIComponent('Заявка на поступление — META College');
-      const body = encodeURIComponent(
-        `Здравствуйте!\n\nЗаявка на поступление в META College:\n\nИмя: ${name}\nТелефон: ${phone}\nПрограмма: ${program}\nКомментарий: ${comment}\n\nПожалуйста, свяжитесь со мной для уточнений.`
-      );
-      // Открываем почтовый клиент пользователя
-      window.location.href = `mailto:info@meta-college.kz?subject=${subject}&body=${body}`;
-      // Параллельно — успех в UI
       const btn = form.querySelector('button[type="submit"]');
-      if (btn) {
-        btn.textContent = '✓ Открыли почтовый клиент';
-        btn.disabled = true;
-        btn.style.opacity = '.8';
+      const origLabel = btn?.textContent;
+      if (btn) { btn.disabled = true; btn.textContent = 'Отправляем…'; btn.style.opacity = '.85'; }
+      if (statusEl) statusEl.hidden = true;
+
+      const fd = new FormData(form);
+      const payload = {
+        name: fd.get('name') || '',
+        phone: fd.get('phone') || '',
+        program: fd.get('program') || '',
+        comment: fd.get('comment') || '',
+        website: fd.get('website') || '', // honeypot
+        page: location.href,
+        referer: document.referrer || '',
+        utm,
+      };
+
+      try {
+        const r = await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(data.error || 'Ошибка отправки');
+        if (btn) { btn.textContent = '✓ Заявка отправлена'; btn.style.opacity = '.9'; }
+        setStatus('Спасибо! Мы свяжемся в течение рабочего дня.', true);
+        form.reset();
+      } catch (err) {
+        if (btn) { btn.disabled = false; btn.textContent = origLabel || 'Отправить заявку'; btn.style.opacity = '1'; }
+        setStatus((err && err.message) ? err.message : 'Не удалось отправить. Позвоните: +7 (775) 500-97-45', false);
       }
-      const note = document.createElement('p');
-      note.style.marginTop = '14px';
-      note.style.color = 'var(--accent)';
-      note.style.fontSize = '14px';
-      note.style.fontWeight = '600';
-      note.innerHTML = `Если почта не открылась, напишите нам в <a href="https://wa.me/77755009745?text=${body}" target="_blank" style="color:var(--accent); text-decoration:underline;">WhatsApp</a> или <a href="https://instagram.com/metacollegekz" target="_blank" style="color:var(--accent); text-decoration:underline;">Instagram</a>.`;
-      form.appendChild(note);
     });
   }
 })();
